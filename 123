@@ -1,0 +1,71 @@
+CREATE TABLE customers (
+customer_id INT AUTO_INCREMENT PRIMARY KEY,
+customer_name VARCHAR(100),
+address_id INT
+);
+
+CREATE TABLE address (
+address VARCHAR(100),
+address_id INT,
+FOREIGN KEY (address_id) REFERENCES customers(address_id)
+);
+
+CREATE TABLE orders (
+order_id INT AUTO_INCREMENT PRIMARY KEY,
+customer_id INT,
+amount DOUBLE,
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE items (
+item_id INT AUTO_INCREMENT PRIMARY KEY,
+item_name VARCHAR(100)
+);
+
+CREATE TABLE items_orders (
+order_id INT,
+item_id INT,
+PRIMARY KEY (order_id, item_id),
+FOREIGN KEY (order_id) REFERENCES orders(order_id),
+FOREIGN KEY (item_id) REFERENCES items(item_id)
+);
+
+
+INSERT INTO `customers` (`customer_id`, `customer_name`,`address_id`) VALUES
+(1, 'Adam', 301),
+(2, 'Andy', 302),
+(3, 'Joe', 303),
+(4, 'Sandy',304);
+
+INSERT INTO `address` (`address_id`, `address`) VALUES
+(301, 'moscow'),
+(302, 'ny'),
+(303, 'london'),
+(304, 'zurich');
+
+INSERT INTO `orders` (`order_id`, `customer_id`, `amount`) VALUES
+(15, 1, 19.99),
+(25, 1, 35.15),
+(35, 3, 17.56),
+(45, 4, 12.34);
+
+INSERT INTO `items` (`item_id`, `item_name`) VALUES
+(10, 'milk'),
+(20, 'book'),
+(30, 'cake'),
+(40, 'bread');
+
+INSERT INTO `items_orders` (`order_id`, `item_id`) VALUES
+(15, 10),
+(15, 30),
+(25, 10),
+(45, 40);
+
+SELECT* FROM customers JOIN items;
+
+SELECT max(amount) FROM orders;
+
+SELECT min(amount) FROM orders;
+
+SELECT* FROM items_orders 
+GROUP BY item_id;
